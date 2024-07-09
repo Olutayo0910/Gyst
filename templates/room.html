@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="max-w-xl mx-auto mt-12 p-4 bg-white rounded shadow">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Chat Room: {{code}}</h2>
+        <div class="messages p-4 bg-gray-100 rounded mb-4" id="messages" style="height: 300px; overflow-y: scroll;">
+            <!-- Messages will be dynamically inserted here -->
+        </div>
+        <div class="inputs flex sm:flex-row">
+            <input class="flex-grow border rounded py-2 px-3 mb-2 sm:mb-0 sm:mr-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                   type="text"
+                   placeholder="Message"
+                   name="message"
+                   id="message"
+            />
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
+                    type="button" 
+                    name="send" 
+                    id="send-btn" 
+                    onclick="sendMessage()">
+                Send
+            </button>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var socketio = io();
+
+        const messagesContainer = document.getElementById("messages");
+        
+        const createMessage = (name, msg) => {
+            const content = `
+            <div class="text">
+                <span>
+                    <strong>${name}</strong>: ${msg}
+                </span>
+                <span class="muted">
+                    ${new Date().toLocaleString()}
+                </span>
+            </div>
+            `;
+            messagesContainer.innerHTML += content;
+        };
+
+        socketio.on("message", (data) => {
+            createMessage(data.name, data.message);
+        });
+
+        const sendMessage = () => {
+            const messageInput = document.getElementById("message");
+            if (messageInput.value == "") return;
+            socketio.emit("message", {data: messageInput.value});
+            messageInput.value = "";
+        };
+    </script>
+{% endblock %}
