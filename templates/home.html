@@ -15,29 +15,33 @@
                    name="name" 
                    value="{{ name }}">
         </div>
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="code">
+        <div class="flex mb-4">
+            <label class="block text-gray-700 text-sm font-bold mr-2" for="code">
                 Join
             </label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+        </div>
+        <div class="flex mb-4 w-full">
+            <input class="border rounded py-2 px-3 w-1/2 mr-2 text-gray-700" 
                    id="code" 
                    type="text" 
                    placeholder="Room code" 
                    name="code" 
                    value="{{ code }}">
-        </div>
-        <div class="block">
-            <button class="bg-blue-500 mb-4 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
+            <button class="bg-blue-500 hover:bg-blue-700 w-1/2 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
                     type="submit" 
                     name="join">
                 Join a Room
             </button>
-            <button class="bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
-                    type="submit" 
-                    name="create">
-                Create a Room
-            </button>
         </div>
+        
+        <button class="bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
+                type="submit" 
+                name="create">
+            Create a Room
+        </button>
     </form>
+    {% if error %}
+    <p>{{ error }}</p>
+    {% endif %}
 </div>
 {% endblock content %}
